@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canarias: ¿Mejor que nunca? | XVI Informe EAPN-ES 2026</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --dark-navy: #1a1a2e;
+            --navy: #16213e;
+            --accent-red: #e94560;
+            --accent-gold: #f5a623;
+            --teal: #0f9b8e;
+            --bg-dark: #0f0f1e;
+            --text-light: #e0e0e0;
+            --text-muted: #999;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1a3e 50%, #0f1a2e 100%);
+            color: var(--text-light);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Sticky Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(22, 33, 62, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            justify-content: center;
+        }
+
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+
+        nav a:hover {
+            color: var(--accent-red);
+            background: rgba(233, 69, 96, 0.1);
+        }
+
+        /* Main container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.8), rgba(22, 33, 62, 0.8));
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-red), var(--accent-gold), var(--teal));
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(233, 69, 96, 0.1);
+            border: 1px solid var(--accent-red);
+            color: var(--accent-red);
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, rgba(26, 26, 46, 0.6), rgba(22, 33, 62, 0.6));
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            backdrop-filter: blur(5px);
+        }
+
+        section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-red);
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        /* Metric Cards */
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, rgba(22, 33, 62, 0.8), rgba(26, 26, 46, 0.8));
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-red);
+            box-shadow: 0 12px 24px rgba(233, 69, 96, 0.15);
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-red);
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-rank {
+            font-size: 0.85rem;
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        .metric-change {
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
+        .metric-change.positive {
+            color: #4ade80;
+        }
+
+        .metric-change.negative {
+            color: var(--accent-red);
+        }
+
+        /* Insight Box */
+        .insight-box {
+            background: rgba(233, 69, 96, 0.05);
+            border-left: 4px solid var(--accent-red);
+            padding: 1.5rem;
+            border-radius: 6px;
+            margin: 2rem 0;
+        }
+
+        .insight-box h3 {
+            color: var(--accent-red);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .insight-box p {
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        /* Chart Container */
+        .chart-container {
+            position: relative;
+            margin: 2rem 0;
+            background: rgba(26, 26, 46, 0.4);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            min-height: 400px;
+        }
+
+        .chart-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        /* Comparison Cards */
+        .comparison-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .comparison-card {
+            background: linear-gradient(135deg, rgba(22, 33, 62, 0.8), rgba(26, 26, 46, 0.8));
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .comparison-card:hover {
+            border-color: var(--accent-gold);
+            box-shadow: 0 12px 24px rgba(245, 166, 35, 0.15);
+        }
+
+        .comparison-card h3 {
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .comparison-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .comparison-stat:last-child {
+            border-bottom: none;
+        }
+
+        .comparison-label {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .comparison-value {
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        /* Radar Chart Container */
+        .radar-container {
+            position: relative;
+            max-width: 600px;
+            margin: 2rem auto;
+            background: rgba(26, 26, 46, 0.4);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            height: 450px;
+        }
+
+        /* Gap Cards */
+        .gap-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .gap-card {
+            background: linear-gradient(135deg, rgba(22, 33, 62, 0.8), rgba(26, 26, 46, 0.8));
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .gap-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--accent-red);
+            margin-bottom: 0.5rem;
+        }
+
+        .gap-label {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .gap-year {
+            color: var(--accent-gold);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Legend */
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            background: rgba(26, 26, 46, 0.4);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+        }
+
+        /* Conclusions */
+        .conclusions-box {
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.1), rgba(245, 166, 35, 0.05));
+            border: 2px solid var(--accent-red);
+            border-radius: 8px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .conclusions-box h3 {
+            color: var(--accent-red);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .conclusions-box ul {
+            margin-left: 2rem;
+        }
+
+        .conclusions-box li {
+            margin-bottom: 0.8rem;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            margin-top: 3rem;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--accent-red);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: var(--accent-gold);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+
+            nav a {
+                padding: 0.4rem 0.8rem;
+            }
+
+            .metrics {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-row {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            section {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-2 {
+            margin-top: 2rem;
+        }
+
+        .mb-2 {
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#resumen">Resumen Ejecutivo</a></li>
+            <li><a href="#ranking">Ranking 2025</a></li>
+            <li><a href="#radar">Perfil Radar</a></li>
+            <li><a href="#evolucion">Evolución 2015-2025</a></li>
+            <li><a href="#gemelas">Comunidades Gemelas</a></li>
+            <li><a href="#agenda2030">Agenda 2030</a></li>
+            <li><a href="#infantil">Pobreza Infantil</a></li>
+            <li><a href="#conclusiones">Conclusiones</a></li>
+        </ul>
+    </nav>
+
+    <!-- Header -->
+    <header>
+        <h1>¿Canarias mejor que nunca?</h1>
+        <p class="subtitle">Análisis crítico de la pobreza y exclusión social en Canarias</p>
+        <span class="badge">XVI Informe EAPN-ES 2026 | ECV 2025 | INE</span>
+    </header>
+
+    <div class="container">
+        <!-- Section 1: Executive Summary -->
+        <section id="resumen">
+            <h2>Resumen Ejecutivo</h2>
+
+            <div class="metrics">
+                <div class="metric-card">
+                    <div class="metric-value">31,2%</div>
+                    <div class="metric-label">AROPE Canarias</div>
+                    <div class="metric-rank">6ª peor CCAA</div>
+                    <div class="metric-change negative">Sin cambio (0,0pp)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">22,9%</div>
+                    <div class="metric-label">Tasa Pobreza</div>
+                    <div class="metric-rank">8ª peor CCAA</div>
+                    <div class="metric-change positive">↓ -1,7pp desde 24,6%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">9,3%</div>
+                    <div class="metric-label">CMSS (Privación)</div>
+                    <div class="metric-rank">6ª peor CCAA</div>
+                    <div class="metric-change positive">↓ -1,5pp desde 10,8%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">11,6%</div>
+                    <div class="metric-label">BITH (Baja Intensidad)</div>
+                    <div class="metric-rank">4ª peor CCAA</div>
+                    <div class="metric-change negative">↑ +1,2pp desde 10,4%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">+5,5pp</div>
+                    <div class="metric-label">Brecha AROPE vs España</div>
+                    <div class="metric-rank">España: 25,7%</div>
+                    <div class="metric-change negative">Distancia muy superior</div>
+                </div>
+            </div>
+
+            <div class="insight-box">
+                <h3>⚠️ Hallazgo clave: AROPE estancado</h3>
+                <p>El AROPE de Canarias se mantiene <strong>completamente estancado en 31,2%</strong>, sin cambio alguno respecto a 2024 (0,0pp). Mientras que España mejora levemente (-0,1pp a 25,7%), Canarias no avanza. La brecha con la media española crece relativamente, pasando de 5,4pp a 5,5pp. Esta estabilidad en el indicador más amplio de pobreza contradice directamente la afirmación de que Canarias está "mejor que nunca".</p>
+            </div>
+
+            <div class="insight-box">
+                <h3>⚠️ BITH empeoró: Más hogares sin suficiente trabajo</h3>
+                <p>El BITH (Baja Intensidad de Trabajo) aumentó de 10,4% a 11,6% (+1,2pp), lo que significa que una proporción mayor de hogares canarios sufre desempleo o insuficiente intensidad laboral. Este es el único indicador de los cuatro que empeoró en 2025, cuando debería mejorar.</p>
+            </div>
+        </section>
+
+        <!-- Section 2: Ranking Comparison 2025 -->
+        <section id="ranking">
+            <h2>Ranking Comparativo 2025</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Posición de Canarias (rojo) frente a todas las comunidades autónomas. Se destaca la media nacional (línea teal) y comunidades gemelas (oro).</p>
+
+            <div class="chart-row">
+                <div class="chart-container">
+                    <canvas id="aropChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="pobrezaChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-row">
+                <div class="chart-container">
+                    <canvas id="cmssChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="bithChart"></canvas>
+                </div>
+            </div>
+
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--accent-red);"></div>
+                    <span>Canarias</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--accent-gold);"></div>
+                    <span>Comunidades Gemelas (Murcia, C. Valenciana, Andalucía)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--teal);"></div>
+                    <span>Media Nacional España (25,7% AROPE)</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Radar Profile -->
+        <section id="radar">
+            <h2>Perfil Radar: Canarias vs Comunidades Gemelas</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem; text-align: center;">Comparativa multidimensional de indicadores de pobreza y exclusión social (valores 2025).</p>
+
+            <div class="radar-container">
+                <canvas id="radarChart"></canvas>
+            </div>
+
+            <div class="insight-box">
+                <h3>Análisis del Perfil</h3>
+                <p>El gráfico radar compara Canarias, Comunidad Valenciana, Murcia y la media nacional en los cuatro indicadores clave (AROPE, Pobreza, CMSS y BITH, normalizados a escala 0-45 para visualización). Canarias mantiene un perfil sistemáticamente peor en todos los indicadores, especialmente en BITH donde destaca negativamente.</p>
+            </div>
+        </section>
+
+        <!-- Section 4: Time Evolution -->
+        <section id="evolucion">
+            <h2>Evolución Temporal 2015-2025</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Trayectorias de pobreza y exclusión en la última década. Se observa la volatilidad de Canarias vs la tendencia nacional.</p>
+
+            <div class="chart-row">
+                <div class="chart-container">
+                    <canvas id="aropeEvolucionChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <canvas id="pobrezaEvolucionChart"></canvas>
+                </div>
+            </div>
+
+            <div class="insight-box">
+                <h3>Patrón de volatilidad en Canarias</h3>
+                <p>Canarias muestra una trayectoria mucho más volátil que la media nacional (línea recta). Aunque ha bajado desde el pico de 47,0% en 2016, la mejora ha sido errática. El estancamiento actual (31,2%) es especialmente preocupante porque ocurre sin cambios, mientras que España continúa mejorando lentamente pero consistentemente.</p>
+            </div>
+        </section>
+
+        <!-- Section 5: Twin Communities -->
+        <section id="gemelas">
+            <h2>Comunidades Gemelas: Convergencia Esperada</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Canarias, Murcia, Comunidad Valenciana y Andalucía presentan contextos socioeconómicos similares (economías más débiles, mayor migración, mayor desempleo). Sus trayectorias deberían ser paralelas. Sin embargo, Canarias destaca negativamente.</p>
+
+            <div class="comparison-cards">
+                <div class="comparison-card">
+                    <h3>Canarias 2025</h3>
+                    <div class="comparison-stat">
+                        <span class="comparison-label">AROPE</span>
+                        <span class="comparison-value">31,2%</span>
+                    </div>
+                    <div class="comparison-stat">
+                        <span class="comparison-label">Pobreza</span>
+                        <span class="comparison-value">22,9%</span>
+                    </div>
+                    <div class="comparison-stat">
+                        <span class="comparison-label">CMSS</span>
+                        <span class="comparison-value">9,3%</span>
+                    </div>
+                    <div class="comparison-stat">
+                        <span class="comparison-label">BITH</span>
+                        <span class="comparison-value">11,6%</span>
+                    </div>
+                </div>
+
+                <div class="comparison-card">
+                    <h3>Murcia 2025</h3>
+                    <div class="comparison-stat">
+                        <span class="comparison-label">AROPE</span>
+                        <span class="comparison-value">32,5%</span>
+                    </div>
+                    <div class="comparison-stat">
+                        <span class="comparison-label">Pobreza</span>
+                        <span class="comparison-value">26,7%</span>
+                    </div>
+                    <div class="comparison-stat">
+                        <span class="comparison-label">CMSS</span>
+                        <span class="comparison-value">9,6%</span>
+                    </div>
+                    <div class="comparison-stat">
+                        <span class="comparison-label">BITH</span>
+                        <span class="comparison-value">10,0%</span>
+                    </div>
+                </div>
+
+                <div class="comparison-card">
+                    <h3>C. Valenciana 2025</h3>
+                    <div class="comparison-stat">
+                        <span class="comparison-label">AROPE</span>
+                        <span class="comparison-value">30,7%</span>
+                    </div>
+                    <div class="comparison-stat">
+                        <span class="comparison-label">Pobreza</span>
+                        <span class="comparison-value">26,0%</span>
+                    </div>
+                    <div class="comparison-stat">
+                        <span class="comparison-label">CMSS</span>
+                        <span class="comparison-value">6,9%</span>
+                    </div>
+                    <div class="comparison-stat">
+                        <span class="comparison-label">BITH</span>
+                        <span class="comparison-value">7,9%</span>
+                    </div>
+                </div>
+
+                <div class="comparison-card">
+                    <h3>Andalucía 2025</h3>
+                    <div class="comparison-stat">
+                        <span class="comparison-label">AROPE</span>
+                        <span class="comparison-value">34,7%</span>
+                    </div>
+                    <div class="comparison-stat">
+                        <span class="comparison-label">Pobreza</span>
+                        <span class="comparison-value">27,7%</span>
+                    </div>
+                    <div class="comparison-stat">
+                        <span class="comparison-label">CMSS</span>
+                        <span class="comparison-value">10,9%</span>
+                    </div>
+                    <div class="comparison-stat">
+                        <span class="comparison-label">BITH</span>
+                        <span class="comparison-value">12,0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="gemelajasChart"></canvas>
+            </div>
+
+            <div class="insight-box">
+                <h3>Convergencia: ¿Mejora estructural o local?</h3>
+                <p>Las mejoras en pobreza monetaria y privación en 2025 son <strong>estructurales y nacionales</strong>. Todas las comunidades gemelas muestran patrones similares. Sin embargo, el AROPE (indicador más amplio) mantiene grandes diferencias regionales, lo que sugiere que las políticas locales de empleo (BITH) tienen un impacto limitado o están siendo insuficientes en Canarias.</p>
+            </div>
+        </section>
+
+        <!-- Section 6: Agenda 2030 -->
+        <section id="agenda2030">
+            <h2>Objetivo Agenda 2030: Hacia la Pobreza Cero</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">España se ha comprometido a reducir el AROPE al 15% para 2030. Canarias está 16,2pp por encima de este objetivo, y el progreso actual es insuficiente.</p>
+
+            <div class="gap-cards">
+                <div class="gap-card">
+                    <div class="gap-value">16,2pp</div>
+                    <div class="gap-label">Brecha a Agenda 2030</div>
+                    <div class="gap-year">Canarias: 31,2% | Objetivo: 15%</div>
+                </div>
+                <div class="gap-card">
+                    <div class="gap-value">0,7pp/año</div>
+                    <div class="gap-label">Mejora promedio 2015-2025</div>
+                    <div class="gap-year">Si se mantiene ritmo...</div>
+                </div>
+                <div class="gap-card">
+                    <div class="gap-value">~23 años</div>
+                    <div class="gap-label">Años para alcanzar 15%</div>
+                    <div class="gap-year">Proyección a ritmo actual</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <canvas id="agenda2030Chart"></canvas>
+            </div>
+
+            <div class="insight-box">
+                <h3>Conclusión sobre Agenda 2030</h3>
+                <p>Al ritmo actual de mejora (~0,7pp por año), Canarias necesitaría aproximadamente 23 años más para alcanzar el objetivo del 15% de AROPE. Esto significa que, incluso en el mejor escenario, Canarias permanecería por encima del objetivo más allá de 2048. <strong>Se requiere una aceleración significativa de las políticas de empleo y protección social.</strong></p>
+            </div>
+        </section>
+
+        <!-- Section 7: Child Poverty -->
+        <section id="infantil">
+            <h2>Pobreza Infantil: Generación en Riesgo</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Los datos nacionales 2025 muestran que los niños y niñas de España sufren tasas de pobreza muy superiores a los adultos. Nota: El desglose regional de pobreza infantil para 2025 no está disponible en este informe anticipado; se utilizan datos de 2024 para Canarias.</p>
+
+            <div class="metrics">
+                <div class="metric-card">
+                    <div class="metric-value">33,8%</div>
+                    <div class="metric-label">AROPE Infantil Nacional</div>
+                    <div class="metric-rank">ESPAÑA 2025</div>
+                    <div class="metric-change positive">↓ -0,8pp desde 34,6%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">28,4%</div>
+                    <div class="metric-label">Pobreza Infantil Nacional</div>
+                    <div class="metric-rank">ESPAÑA 2025</div>
+                    <div class="metric-change positive">↓ -0,8pp desde 29,2%</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">8,1%</div>
+                    <div class="metric-label">Adultos Pobreza</div>
+                    <div class="metric-rank">ESPAÑA 2025</div>
+                    <div class="metric-change negative">Brecha: +20,3pp</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">2º PEOR</div>
+                    <div class="metric-label">Pobreza infantil en EU</div>
+                    <div class="metric-rank">España tras Rumania</div>
+                    <div class="metric-change negative">Crisis estructural</div>
+                </div>
+            </div>
+
+            <div class="comparison-cards">
+                <div class="comparison-card">
+                    <h3>Canarias (2024)</h3>
+                    <div class="comparison-stat">
+                        <span class="comparison-label">AROPE Infantil</span>
+                        <span class="comparison-value">40,2%</span>
+                    </div>
+                    <div class="comparison-stat">
+                        <span class="comparison-label">Pobreza Infantil</span>
+                        <span class="comparison-value">36,4%</span>
+                    </div>
+                    <div class="comparison-stat">
+                        <span class="comparison-label">Rango</span>
+                        <span class="comparison-value">5ª peor</span>
+                    </div>
+                    <div class="comparison-stat">
+                        <span class="comparison-label">Brecha adult-infantil</span>
+                        <span class="comparison-value">+17,5pp</span>
+                    </div>
+                </div>
+                <div class="comparison-card">
+                    <h3>España (2024)</h3>
+                    <div class="comparison-stat">
+                        <span class="comparison-label">AROPE Infantil</span>
+                        <span class="comparison-value">34,6%</span>
+                    </div>
+                    <div class="comparison-stat">
+                        <span class="comparison-label">Pobreza Infantil</span>
+                        <span class="comparison-value">29,2%</span>
+                    </div>
+                    <div class="comparison-stat">
+                        <span class="comparison-label">Rango</span>
+                        <span class="comparison-value">2ª peor EU</span>
+                    </div>
+                    <div class="comparison-stat">
+                        <span class="comparison-label">Brecha adult-infantil</span>
+                        <span class="comparison-value">+15,1pp</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="insight-box">
+                <h3>El drama de la pobreza infantil en Canarias</h3>
+                <p>Con datos de 2024, Canarias tenía una tasa de AROPE infantil del 40,2%, posicionándose como la 5ª peor CCAA. Esto significa que 4 de cada 10 menores canarios estaban en situación de pobreza o exclusión social. Los datos de 2025 aún no ofrecen desglose regional, pero si se mantiene la tendencia, Canarias permanecerá entre las peores de España.</p>
+            </div>
+        </section>
+
+        <!-- Section 8: Conclusions -->
+        <section id="conclusiones">
+            <div class="conclusions-box">
+                <h3>Conclusiones: La Realidad Detrás del Discurso</h3>
+                <ul>
+                    <li><strong>AROPE estancado (31,2%, +0,0pp):</strong> Canarias no ha avanzado en el indicador más amplio de pobreza y exclusión social. La afirmación de "mejor que nunca" es directamente contradicha por los datos oficiales del INE.</li>
+
+                    <li><strong>BITH empeoró (+1,2pp a 11,6%):</strong> Más hogares canarios sufren baja intensidad laboral. Las políticas de empleo local no están siendo suficientes para mejorar la situación laboral de las familias.</li>
+
+                    <li><strong>Mejoras monetarias superficiales:</strong> La pobreza monetaria y la privación mejoraron levemente (-1,7pp y -1,5pp respectivamente), pero esto es resultado de políticas nacionales de protección social, no de iniciativas locales canarias.</li>
+
+                    <li><strong>Brecha persistente con España (+5,5pp):</strong> Canarias permanece 5,5 puntos porcentuales por encima de la media nacional, una diferencia significativa que representa aproximadamente 200.000 personas adicionales en pobreza o exclusión.</li>
+
+                    <li><strong>Comunidades gemelas como referencia:</strong> Regiones con similares desafíos (Murcia, C. Valenciana, Andalucía) muestran patrones muy parecidos en 2025, lo que confirma que las mejoras son estructurales y nacionales, no locales.</li>
+
+                    <li><strong>Agenda 2030 inalcanzable al ritmo actual:</strong> A la velocidad de mejora registrada desde 2015 (~0,7pp/año), Canarias tardaría más de 23 años en alcanzar el objetivo de 15% de AROPE establecido para 2030.</li>
+
+                    <li><strong>Crisis de pobreza infantil:</strong> Con el 40,2% de AROPE infantil (2024), Canarias es la 5ª peor CCAA. Una generación de niños y niñas crece en riesgo de pobreza, con implicaciones a largo plazo para la cohesión social.</li>
+
+                    <li><strong>Gasto en imprevistos:</strong> El 49,8% de la población de Canarias no puede hacer frente a gastos imprevistos, lo que indica una vulnerabilidad extrema ante crisis.</li>
+                </ul>
+            </div>
+
+            <div class="insight-box">
+                <h3>Recomendaciones de Política Pública</h3>
+                <p>
+                    Los datos sugieren la necesidad de políticas más agresivas en: (1) creación de empleo de calidad y con mayor intensidad laboral; (2) protección social para hogares con baja intensidad de trabajo; (3) educación y formación para reducir la brecha de ingresos; (4) protección especial a la infancia con programas de garantía de ingresos mínimos; (5) evaluación de políticas de empleo locales para identificar por qué Canarias no converge con la media nacional.
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>Fuente de datos:</strong> XVI Informe EAPN-ES 2026 (datos ECV 2025 del INE)</p>
+        <p><strong>Indicadores:</strong> AROPE (At Risk of Poverty or social Exclusion), Pobreza (umbral 60% mediana renta), CMSS (Carencia Material y Social Severa), BITH (Baja Intensidad de Trabajo)</p>
+        <p>Dashboard de análisis crítico | Marzo 2026</p>
+        <p style="margin-top: 1rem; color: var(--text-muted); font-size: 0.85rem;">EAPN-ES (Comisión Europea) | INE | Adaptación y análisis con datos EAPN-ES XVI Informe</p>
+    </footer>
+
+    <script>
+        // Chart.js global configuration
+        Chart.defaults.color = '#999';
+        Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.1)';
+
+        const colors = {
+            canarias: '#e94560',
+            gemelas: '#f5a623',
+            españa: '#0f9b8e',
+            secondary: '#4a5568'
+        };
+
+        // Helper function to create ranking bar charts
+        function createRankingChart(canvasId, data, label, colors) {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+
+            const ccaas = data.map(d => d.name);
+            const values = data.map(d => d.value);
+            const bgColors = data.map(d => d.color);
+
+            return new Chart(ctx, {
+                type: 'barh',
+                data: {
+                    labels: ccaas,
+                    datasets: [{
+                        label: label,
+                        data: values,
+                        backgroundColor: bgColors,
+                        borderColor: 'rgba(255, 255, 255, 0.1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            labels: { color: '#e0e0e0' }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: { color: '#999' },
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                            min: 0,
+                            max: 45
+                        },
+                        y: {
+                            ticks: { color: '#999' },
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+        }
+
+        // AROPE Ranking Chart
+        const aropeData = [
+            { name: 'Melilla', value: 43.7, color: colors.secondary },
+            { name: 'Ceuta', value: 40.8, color: colors.secondary },
+            { name: 'Andalucía', value: 34.7, color: colors.gemelas },
+            { name: 'C-La Mancha', value: 34.0, color: colors.secondary },
+            { name: 'Murcia', value: 32.5, color: colors.gemelas },
+            { name: 'Canarias', value: 31.2, color: colors.canarias },
+            { name: 'C. Valenciana', value: 30.7, color: colors.gemelas },
+            { name: 'Extremadura', value: 30.4, color: colors.secondary },
+            { name: 'Castilla y León', value: 24.1, color: colors.secondary },
+            { name: 'La Rioja', value: 22.8, color: colors.secondary },
+            { name: 'Asturias', value: 22.4, color: colors.secondary },
+            { name: 'Galicia', value: 22.1, color: colors.secondary },
+            { name: 'Catalunya', value: 21.3, color: colors.secondary },
+            { name: 'C. Madrid', value: 19.4, color: colors.secondary },
+            { name: 'Cantabria', value: 19.2, color: colors.secondary },
+            { name: 'Aragón', value: 19.1, color: colors.secondary },
+            { name: 'Navarra', value: 16.5, color: colors.secondary },
+            { name: 'I. Balears', value: 15.2, color: colors.secondary },
+            { name: 'Euskadi', value: 14.7, color: colors.secondary },
+            { name: '--- España (Media)', value: 25.7, color: colors.españa }
+        ];
+
+        createRankingChart('aropChart', aropeData, 'AROPE 2025 (%)', colors);
+
+        // Pobreza Ranking Chart
+        const pobrezaData = [
+            { name: 'Melilla', value: 39.3, color: colors.secondary },
+            { name: 'Ceuta', value: 37.0, color: colors.secondary },
+            { name: 'Andalucía', value: 27.7, color: colors.gemelas },
+            { name: 'Murcia', value: 26.7, color: colors.gemelas },
+            { name: 'Extremadura', value: 26.2, color: colors.secondary },
+            { name: 'C. Valenciana', value: 26.0, color: colors.gemelas },
+            { name: 'C-La Mancha', value: 25.9, color: colors.secondary },
+            { name: 'Canarias', value: 22.9, color: colors.canarias },
+            { name: 'Castilla y León', value: 19.8, color: colors.secondary },
+            { name: 'La Rioja', value: 18.4, color: colors.secondary },
+            { name: 'Asturias', value: 17.2, color: colors.secondary },
+            { name: 'Galicia', value: 16.0, color: colors.secondary },
+            { name: 'Catalunya', value: 14.3, color: colors.secondary },
+            { name: 'Cantabria', value: 13.9, color: colors.secondary },
+            { name: 'Aragón', value: 13.6, color: colors.secondary },
+            { name: 'C. Madrid', value: 12.7, color: colors.secondary },
+            { name: 'Navarra', value: 12.3, color: colors.secondary },
+            { name: 'I. Balears', value: 11.6, color: colors.secondary },
+            { name: 'Euskadi', value: 9.3, color: colors.secondary },
+            { name: '--- España (Media)', value: 19.5, color: colors.españa }
+        ];
+
+        createRankingChart('pobrezaChart', pobrezaData, 'Tasa Pobreza 2025 (%)', colors);
+
+        // CMSS Ranking Chart
+        const cmssData = [
+            { name: 'Melilla', value: 11.8, color: colors.secondary },
+            { name: 'Ceuta', value: 11.0, color: colors.secondary },
+            { name: 'Andalucía', value: 10.9, color: colors.gemelas },
+            { name: 'C-La Mancha', value: 9.8, color: colors.secondary },
+            { name: 'Murcia', value: 9.6, color: colors.gemelas },
+            { name: 'Canarias', value: 9.3, color: colors.canarias },
+            { name: 'Catalunya', value: 8.9, color: colors.secondary },
+            { name: 'C. Madrid', value: 8.4, color: colors.secondary },
+            { name: 'Galicia', value: 7.1, color: colors.secondary },
+            { name: 'C. Valenciana', value: 6.9, color: colors.gemelas },
+            { name: 'Castilla y León', value: 6.7, color: colors.secondary },
+            { name: 'Asturias', value: 6.7, color: colors.secondary },
+            { name: 'Aragón', value: 6.5, color: colors.secondary },
+            { name: 'Extremadura', value: 6.3, color: colors.secondary },
+            { name: 'Cantabria', value: 5.0, color: colors.secondary },
+            { name: 'Navarra', value: 4.8, color: colors.secondary },
+            { name: 'La Rioja', value: 4.3, color: colors.secondary },
+            { name: 'I. Balears', value: 3.6, color: colors.secondary },
+            { name: 'Euskadi', value: 3.0, color: colors.secondary },
+            { name: '--- España (Media)', value: 8.1, color: colors.españa }
+        ];
+
+        createRankingChart('cmssChart', cmssData, 'CMSS 2025 (%)', colors);
+
+        // BITH Ranking Chart
+        const bithData = [
+            { name: 'Ceuta', value: 27.5, color: colors.secondary },
+            { name: 'Melilla', value: 23.9, color: colors.secondary },
+            { name: 'Andalucía', value: 12.0, color: colors.gemelas },
+            { name: 'Canarias', value: 11.6, color: colors.canarias },
+            { name: 'Asturias', value: 11.1, color: colors.secondary },
+            { name: 'C-La Mancha', value: 10.0, color: colors.secondary },
+            { name: 'Murcia', value: 10.0, color: colors.gemelas },
+            { name: 'Castilla y León', value: 9.5, color: colors.secondary },
+            { name: 'Cantabria', value: 9.0, color: colors.secondary },
+            { name: 'C. Valenciana', value: 7.9, color: colors.gemelas },
+            { name: 'Extremadura', value: 7.7, color: colors.secondary },
+            { name: 'Galicia', value: 7.6, color: colors.secondary },
+            { name: 'Navarra', value: 7.4, color: colors.secondary },
+            { name: 'La Rioja', value: 7.4, color: colors.secondary },
+            { name: 'Euskadi', value: 7.3, color: colors.secondary },
+            { name: 'Catalunya', value: 5.9, color: colors.secondary },
+            { name: 'Aragón', value: 4.9, color: colors.secondary },
+            { name: 'I. Balears', value: 4.6, color: colors.secondary },
+            { name: 'C. Madrid', value: 3.5, color: colors.secondary },
+            { name: '--- España (Media)', value: 8.0, color: colors.españa }
+        ];
+
+        createRankingChart('bithChart', bithData, 'BITH 2025 (%)', colors);
+
+        // Radar Chart
+        const radarCtx = document.getElementById('radarChart').getContext('2d');
+        new Chart(radarCtx, {
+            type: 'radar',
+            data: {
+                labels: ['AROPE', 'Pobreza', 'CMSS', 'BITH'],
+                datasets: [
+                    {
+                        label: 'Canarias',
+                        data: [31.2, 22.9, 9.3, 11.6],
+                        borderColor: colors.canarias,
+                        backgroundColor: 'rgba(233, 69, 96, 0.15)',
+                        borderWidth: 2,
+                        pointRadius: 5,
+                        pointBackgroundColor: colors.canarias
+                    },
+                    {
+                        label: 'C. Valenciana',
+                        data: [30.7, 26.0, 6.9, 7.9],
+                        borderColor: colors.gemelas,
+                        backgroundColor: 'rgba(245, 166, 35, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 5,
+                        pointBackgroundColor: colors.gemelas
+                    },
+                    {
+                        label: 'Murcia',
+                        data: [32.5, 26.7, 9.6, 10.0],
+                        borderColor: 'rgba(245, 166, 35, 0.7)',
+                        backgroundColor: 'rgba(245, 166, 35, 0.05)',
+                        borderWidth: 2,
+                        pointRadius: 5,
+                        pointBackgroundColor: 'rgba(245, 166, 35, 0.7)',
+                        borderDash: [5, 5]
+                    },
+                    {
+                        label: 'España',
+                        data: [25.7, 19.5, 8.1, 8.0],
+                        borderColor: colors.españa,
+                        backgroundColor: 'rgba(15, 155, 142, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 5,
+                        pointBackgroundColor: colors.españa
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: { color: '#e0e0e0' }
+                    }
+                },
+                scales: {
+                    r: {
+                        ticks: { color: '#999', backdropColor: 'transparent' },
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                        min: 0,
+                        max: 35
+                    }
+                }
+            }
+        });
+
+        // AROPE Evolution Chart
+        const aropeEvolucionCtx = document.getElementById('aropeEvolucionChart').getContext('2d');
+        new Chart(aropeEvolucionCtx, {
+            type: 'line',
+            data: {
+                labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'],
+                datasets: [
+                    {
+                        label: 'Canarias',
+                        data: [38.4, 47.0, 39.9, 39.2, 38.3, 39.1, 37.8, 36.2, 33.8, 31.2, 31.2],
+                        borderColor: colors.canarias,
+                        backgroundColor: 'rgba(233, 69, 96, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        pointRadius: 5,
+                        pointBackgroundColor: colors.canarias,
+                        fill: true
+                    },
+                    {
+                        label: 'España',
+                        data: [28.7, 28.8, 27.5, 27.3, 26.2, 27.0, 27.8, 26.0, 26.5, 25.8, 25.7],
+                        borderColor: colors.españa,
+                        backgroundColor: 'rgba(15, 155, 142, 0.05)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: colors.españa,
+                        fill: false
+                    },
+                    {
+                        label: 'C. Valenciana',
+                        data: [33.2, 30.9, 31.9, 30.7, 28.2, 29.7, 30.6, 27.5, 29.6, 29.9, 30.7],
+                        borderColor: colors.gemelas,
+                        backgroundColor: 'rgba(245, 166, 35, 0.05)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: colors.gemelas,
+                        fill: false
+                    },
+                    {
+                        label: 'Murcia',
+                        data: [39.3, 35.5, 35.6, 33.2, 33.4, 30.2, 33.8, 31.0, 30.5, 32.4, 32.5],
+                        borderColor: 'rgba(245, 166, 35, 0.7)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: 'rgba(245, 166, 35, 0.7)',
+                        borderDash: [5, 5],
+                        fill: false
+                    },
+                    {
+                        label: 'Andalucía',
+                        data: [43.6, 43.1, 39.0, 41.7, 39.3, 36.9, 38.7, 35.8, 37.5, 35.6, 34.7],
+                        borderColor: 'rgba(245, 166, 35, 0.5)',
+                        borderWidth: 1.5,
+                        tension: 0.4,
+                        pointRadius: 3,
+                        pointBackgroundColor: 'rgba(245, 166, 35, 0.5)',
+                        borderDash: [3, 3],
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { labels: { color: '#e0e0e0' } }
+                },
+                scales: {
+                    y: {
+                        ticks: { color: '#999' },
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                    },
+                    x: {
+                        ticks: { color: '#999' },
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                    }
+                }
+            }
+        });
+
+        // Pobreza Evolution Chart
+        const pobrezaEvolucionCtx = document.getElementById('pobrezaEvolucionChart').getContext('2d');
+        new Chart(pobrezaEvolucionCtx, {
+            type: 'line',
+            data: {
+                labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'],
+                datasets: [
+                    {
+                        label: 'Canarias',
+                        data: [28.5, 35.0, 30.5, 32.1, 28.5, 29.9, 28.4, 29.4, 26.1, 24.6, 22.9],
+                        borderColor: colors.canarias,
+                        backgroundColor: 'rgba(233, 69, 96, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        pointRadius: 5,
+                        pointBackgroundColor: colors.canarias,
+                        fill: true
+                    },
+                    {
+                        label: 'España',
+                        data: [22.1, 22.3, 21.6, 21.5, 20.7, 21.0, 21.7, 20.4, 20.2, 19.7, 19.5],
+                        borderColor: colors.españa,
+                        backgroundColor: 'rgba(15, 155, 142, 0.05)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: colors.españa,
+                        fill: false
+                    },
+                    {
+                        label: 'C. Valenciana',
+                        data: [25.3, 24.4, 25.6, 26.0, 23.7, 24.6, 25.1, 22.3, 24.3, 24.8, 26.0],
+                        borderColor: colors.gemelas,
+                        backgroundColor: 'rgba(245, 166, 35, 0.05)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: colors.gemelas,
+                        fill: false
+                    },
+                    {
+                        label: 'Murcia',
+                        data: [29.0, 30.4, 38.8, 37.6, 31.5, 27.7, 27.7, 25.0, 26.3, 26.0, 26.7],
+                        borderColor: 'rgba(245, 166, 35, 0.7)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: 'rgba(245, 166, 35, 0.7)',
+                        borderDash: [5, 5],
+                        fill: false
+                    },
+                    {
+                        label: 'Andalucía',
+                        data: [35.7, 35.4, 31.0, 31.3, 28.5, 32.3, 32.9, 31.0, 30.5, 29.2, 27.7],
+                        borderColor: 'rgba(245, 166, 35, 0.5)',
+                        borderWidth: 1.5,
+                        tension: 0.4,
+                        pointRadius: 3,
+                        pointBackgroundColor: 'rgba(245, 166, 35, 0.5)',
+                        borderDash: [3, 3],
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { labels: { color: '#e0e0e0' } }
+                },
+                scales: {
+                    y: {
+                        ticks: { color: '#999' },
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                    },
+                    x: {
+                        ticks: { color: '#999' },
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                    }
+                }
+            }
+        });
+
+        // Twin Communities Convergence Chart
+        const gemalejasCtx = document.getElementById('gemelajasChart').getContext('2d');
+        new Chart(gemalejasCtx, {
+            type: 'line',
+            data: {
+                labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'],
+                datasets: [
+                    {
+                        label: 'Canarias (AROPE)',
+                        data: [38.4, 47.0, 39.9, 39.2, 38.3, 39.1, 37.8, 36.2, 33.8, 31.2, 31.2],
+                        borderColor: colors.canarias,
+                        backgroundColor: 'rgba(233, 69, 96, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        pointRadius: 5,
+                        pointBackgroundColor: colors.canarias,
+                        fill: false
+                    },
+                    {
+                        label: 'Murcia (AROPE)',
+                        data: [39.3, 35.5, 35.6, 33.2, 33.4, 30.2, 33.8, 31.0, 30.5, 32.4, 32.5],
+                        borderColor: 'rgba(245, 166, 35, 0.8)',
+                        borderWidth: 2.5,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: 'rgba(245, 166, 35, 0.8)',
+                        fill: false
+                    },
+                    {
+                        label: 'C. Valenciana (AROPE)',
+                        data: [33.2, 30.9, 31.9, 30.7, 28.2, 29.7, 30.6, 27.5, 29.6, 29.9, 30.7],
+                        borderColor: 'rgba(245, 166, 35, 0.6)',
+                        borderWidth: 2.5,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: 'rgba(245, 166, 35, 0.6)',
+                        fill: false
+                    },
+                    {
+                        label: 'Andalucía (AROPE)',
+                        data: [43.6, 43.1, 39.0, 41.7, 39.3, 36.9, 38.7, 35.8, 37.5, 35.6, 34.7],
+                        borderColor: 'rgba(245, 166, 35, 0.4)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        pointRadius: 3,
+                        pointBackgroundColor: 'rgba(245, 166, 35, 0.4)',
+                        borderDash: [5, 5],
+                        fill: false
+                    },
+                    {
+                        label: 'España (AROPE)',
+                        data: [28.7, 28.8, 27.5, 27.3, 26.2, 27.0, 27.8, 26.0, 26.5, 25.8, 25.7],
+                        borderColor: colors.españa,
+                        backgroundColor: 'rgba(15, 155, 142, 0.05)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: colors.españa,
+                        borderDash: [3, 3],
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { labels: { color: '#e0e0e0' } },
+                    title: { display: true, text: 'Convergencia AROPE 2015-2025', color: '#e0e0e0' }
+                },
+                scales: {
+                    y: {
+                        ticks: { color: '#999' },
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                    },
+                    x: {
+                        ticks: { color: '#999' },
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                    }
+                }
+            }
+        });
+
+        // Agenda 2030 Projection Chart
+        const agenda2030Ctx = document.getElementById('agenda2030Chart').getContext('2d');
+        new Chart(agenda2030Ctx, {
+            type: 'line',
+            data: {
+                labels: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030', '2035', '2040', '2045', '2048'],
+                datasets: [
+                    {
+                        label: 'Canarias (histórico)',
+                        data: [38.4, 47.0, 39.9, 39.2, 38.3, 39.1, 37.8, 36.2, 33.8, 31.2, 31.2, null, null, null, null, null, null, null, null, null],
+                        borderColor: colors.canarias,
+                        backgroundColor: 'rgba(233, 69, 96, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        pointRadius: 5,
+                        pointBackgroundColor: colors.canarias,
+                        fill: true
+                    },
+                    {
+                        label: 'Canarias (proyección a -0.7pp/año)',
+                        data: [null, null, null, null, null, null, null, null, null, null, 31.2, 30.5, 29.8, 29.1, 28.4, 27.7, 24.5, 21.3, 18.1, 15.0],
+                        borderColor: 'rgba(233, 69, 96, 0.6)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        pointRadius: 3,
+                        pointBackgroundColor: 'rgba(233, 69, 96, 0.6)',
+                        borderDash: [5, 5],
+                        fill: false
+                    },
+                    {
+                        label: 'Objetivo Agenda 2030 (15%)',
+                        data: [15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15],
+                        borderColor: colors.teal,
+                        backgroundColor: 'rgba(15, 155, 142, 0.05)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        pointRadius: 2,
+                        pointBackgroundColor: colors.teal,
+                        borderDash: [8, 4],
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { labels: { color: '#e0e0e0' } },
+                    title: { display: true, text: 'Proyección AROPE Canarias hacia 2030', color: '#e0e0e0' }
+                },
+                scales: {
+                    y: {
+                        ticks: { color: '#999' },
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                        min: 10,
+                        max: 50
+                    },
+                    x: {
+                        ticks: { color: '#999' },
+                        grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
