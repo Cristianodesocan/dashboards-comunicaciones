@@ -454,6 +454,70 @@
         .mb-2 {
             margin-bottom: 2rem;
         }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
+            color: var(--text-light);
+            cursor: pointer;
+            padding: 0.45rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(233, 69, 96, 0.15);
+            border-color: var(--accent-red);
+        }
+
+        /* ── Light Theme ─────────────────────────────────────────────── */
+        body.light {
+            --text-light: #1a1a2e;
+            --text-muted: #555;
+            --border-color: rgba(0, 0, 0, 0.12);
+            background: linear-gradient(135deg, #f0f2f5 0%, #e8edf5 50%, #eef2f8 100%);
+        }
+
+        body.light nav {
+            background: rgba(255, 255, 255, 0.97);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        body.light header,
+        body.light section {
+            background: linear-gradient(135deg, rgba(255,255,255,0.88), rgba(240,245,255,0.88));
+        }
+
+        body.light .metric-card,
+        body.light .comparison-card,
+        body.light .gap-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(248,250,255,0.95));
+        }
+
+        body.light .chart-container,
+        body.light .radar-container {
+            background: rgba(255, 255, 255, 0.88);
+        }
+
+        body.light .insight-box {
+            background: rgba(233, 69, 96, 0.04);
+        }
+
+        body.light .conclusions-box {
+            background: linear-gradient(135deg, rgba(233,69,96,0.07), rgba(245,166,35,0.03));
+        }
+
+        body.light .legend {
+            background: rgba(255, 255, 255, 0.88);
+        }
+
+        body.light .theme-toggle {
+            background: rgba(0, 0, 0, 0.06);
+        }
     </style>
 </head>
 <body>
@@ -468,6 +532,7 @@
             <li><a href="#agenda2030">Agenda 2030</a></li>
             <li><a href="#infantil">Pobreza Infantil</a></li>
             <li><a href="#conclusiones">Conclusiones</a></li>
+            <li><button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">☀️ Tema claro</button></li>
         </ul>
     </nav>
 
@@ -1392,6 +1457,34 @@
                 }
             }
         });
+        // Theme toggle
+        function toggleTheme() {
+            const isLight = document.body.classList.toggle('light');
+            const btn = document.getElementById('themeToggle');
+            btn.textContent = isLight ? '🌙 Tema oscuro' : '☀️ Tema claro';
+
+            const tickColor   = isLight ? '#444' : '#999';
+            const gridColor   = isLight ? 'rgba(0,0,0,0.07)' : 'rgba(255,255,255,0.05)';
+            const labelColor  = isLight ? '#222' : '#e0e0e0';
+
+            Object.values(Chart.instances).forEach(chart => {
+                if (chart.options.scales) {
+                    Object.values(chart.options.scales).forEach(scale => {
+                        if (scale.ticks)       scale.ticks.color = tickColor;
+                        if (scale.grid)        scale.grid.color  = gridColor;
+                        if (scale.pointLabels) scale.pointLabels.color = tickColor;
+                        if (scale.angleLines)  scale.angleLines.color  = gridColor;
+                        if (scale.ticks?.backdropColor !== undefined)
+                            scale.ticks.backdropColor = 'transparent';
+                    });
+                }
+                if (chart.options.plugins?.legend?.labels)
+                    chart.options.plugins.legend.labels.color = labelColor;
+                if (chart.options.plugins?.title)
+                    chart.options.plugins.title.color = labelColor;
+                chart.update('none');
+            });
+        }
     </script>
 </body>
 </html>
