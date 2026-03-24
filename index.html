@@ -871,7 +871,7 @@
             const bgColors = data.map(d => d.color);
 
             return new Chart(ctx, {
-                type: 'barh',
+                type: 'bar',
                 data: {
                     labels: ccaas,
                     datasets: [{
@@ -1358,12 +1358,12 @@
                     {
                         label: 'Objetivo Agenda 2030 (15%)',
                         data: [15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15],
-                        borderColor: colors.teal,
+                        borderColor: colors.españa,
                         backgroundColor: 'rgba(15, 155, 142, 0.05)',
                         borderWidth: 2,
                         tension: 0.4,
                         pointRadius: 2,
-                        pointBackgroundColor: colors.teal,
+                        pointBackgroundColor: colors.españa,
                         borderDash: [8, 4],
                         fill: false
                     }
